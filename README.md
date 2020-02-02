@@ -19,3 +19,7 @@ Also I rewrote this starting saturday so this whole thing took me twoish days (c
 
 you will see a scss file that I created while trying to mess around with button animations.
 style.css is the main css file for the app. I found some information online about making a on hover animated button with moving borders and went with that for the style.
+
+## snapshot
+
+<img src="app_example.PNG" alt="picture of app working on my machine">
