@@ -89,6 +89,49 @@ $(function() {
       return hour;
     }
   }
+  function checktime(ob) {
+    let curtime = new Date();
+    let start = `${ob.hour}:00`;
+    let end = `${ob.hour.slice(0, 2)}:59:59`;
+    console.log(end);
+    let str = start.split(":");
+    let starttime = new Date(
+      curtime.getFullYear(),
+      curtime.getMonth(),
+      curtime.getDate(),
+      parseInt(str[0]),
+      parseInt(str[1]),
+      parseInt(str[2])
+    );
+
+    let estr = end.split(":");
+    var endtime = new Date(
+      curtime.getFullYear(),
+      curtime.getMonth(),
+      curtime.getDate(),
+      parseInt(estr[0]),
+      parseInt(estr[1]),
+      parseInt(estr[2])
+    );
+    if (ob.current == true) {
+      if (curtime >= starttime && curtime <= endtime) {
+        return;
+      } else {
+        ob.current = false;
+        ob.past = true;
+      }
+    } else if (ob.future == true) {
+      if (curtime >= starttime && curtime <= endtime) {
+        ob.current = true;
+        ob.future = false;
+      } else if (starttime < curtime) {
+        ob.past = true;
+        ob.future = false;
+      } else {
+        return;
+      }
+    }
+  }
   function addToDom(hourOb) {
     let p = $("<p>");
     let timep = $("<p>");
@@ -114,13 +157,14 @@ $(function() {
     save.append(i);
     save.addClass("glow-on-hover");
     save.attr("value", hourOb.id);
+    checktime(hourOb);
     if (hourOb.text.length > 0 && hourOb.current) {
       textarea.val(hourOb.text);
       textarea.attr("id", hourOb.id);
       txtdiv.addClass("current");
       txtdiv.append(textarea);
     } else if (hourOb.text.length > 0 && hourOb.past) {
-      p.text(hour.text);
+      p.text(hourOb.text);
       save.attr("disabled", true);
       //p.addClass("class", "grey");
       txtdiv.addClass("blue-grey");
